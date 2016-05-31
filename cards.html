@@ -1,0 +1,68 @@
+<script>
+
+function Card(number, suit){
+	this.number = number;
+	this.suit = suit;
+}
+
+function Deck(){
+	this.numberarray = ['A-1-11',2,3,4,5,6,7,8,9,10,'J-10','Q-10','K-10'];
+	this.suitarray = ['hearts','diamonds','clubs','spades'];
+	this.originalcardarray = [];
+
+	for (i=0; i<this.numberarray.length; i++){
+		for (j=0; j<this.suitarray.length; j++){
+			this.originalcardarray.push(new Card(this.numberarray[i], this.suitarray[j]));
+		}
+	}
+};
+
+Deck.prototype.shuffle = function(){
+	this.cardarray = this.originalcardarray;
+	// console.log('Cards before shuffle: ' + this.cardarray);
+	for (i=this.cardarray.length; i>0; i--){
+		temp = this.cardarray[i];
+		swapIndex = Math.floor(Math.random()*this.cardarray.length);
+		this.cardarray[i] = this.cardarray[swapIndex];
+		this.cardarray[swapIndex] = temp;  
+	}
+	// console.log('Cards after shuffle: ' + this.cardarray);
+}
+
+Deck.prototype.deal = function(){
+
+	this.dealtcard = this.cardarray.pop();
+
+	// console.log(this.dealtcard);
+	// console.log(this.cardarray);
+	return this.dealtcard
+}
+
+Deck.prototype.reset = function(){
+	this.cardarray = this.originalcardarray;
+}
+
+function Player(name){
+	this.name = name;
+	this.hand = [];
+}
+
+Player.prototype.take = function(dealtcard){
+	this.hand.push(dealtcard);
+}
+
+Player.prototype.discard = function(Card){
+	this.hand = this.hand - Card;
+}
+
+deck1 = new Deck('A');
+deck1.shuffle();
+console.log(deck1);
+player1 = new Player('VIP');
+player1.take(deck1.deal());
+console.log(player1);
+console.log(deck1);
+player1.discard(Card);
+console.log(player1);
+
+</script>
